@@ -4,6 +4,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
+	"time"
 )
 
 var logger *zap.SugaredLogger
@@ -22,13 +23,13 @@ type appLogger struct {
 }
 
 var loggerLevelMap = map[string]zapcore.Level{
-	"DEBUG":  zapcore.DebugLevel,
-	"INFO":   zapcore.InfoLevel,
-	"WARN":   zapcore.WarnLevel,
-	"ERROR":  zapcore.ErrorLevel,
-	"DPANIC": zapcore.DPanicLevel,
-	"PANIC":  zapcore.PanicLevel,
-	"FATAL":  zapcore.FatalLevel,
+	"debug":  zapcore.DebugLevel,
+	"info":   zapcore.InfoLevel,
+	"warn":   zapcore.WarnLevel,
+	"error":  zapcore.ErrorLevel,
+	"dpanic": zapcore.DPanicLevel,
+	"panic":  zapcore.PanicLevel,
+	"fatal":  zapcore.FatalLevel,
 }
 
 func (l *appLogger) getLoggerLevel() zapcore.Level {
@@ -75,9 +76,14 @@ func (config *Config) SetConfiguration(appName string) {
 	}
 
 	core := zapcore.NewCore(encoder, logWriter, zap.NewAtomicLevelAt(logLevel))
-	lg := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.Fields(zap.String("service", appName)))
+
+	lg := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
+	lg = lg.Named(appName)
 
 	logger = lg.Sugar()
+	logger = logger.Named(appName)
+	logger.Info("(SET LOG LEVEL)", zap.String("LEVEL", config.Level))
+	logger.Sync()
 }
 
 func Debug(args ...interface{}) {
@@ -162,4 +168,59 @@ func PanicW(msg string, keysAndValues ...interface{}) {
 
 func FatalW(msg string, keysAndValues ...interface{}) {
 	logger.Fatal(msg, keysAndValues)
+}
+
+func HttpMiddlewareAccessLogger(method, uri string, status int, size int64, time time.Duration) {
+	logger.Info(
+		HTTP,
+		zap.String(METHOD, method),
+		zap.String(URI, uri),
+		zap.Int(STATUS, status),
+		zap.Int64(SIZE, size),
+		zap.Duration(TIME, time),
+	)
+}
+
+func GrpcMiddlewareAccessLogger(method string, time time.Duration, metaData map[string][]string, err error) {
+	logger.Info(
+		GRPC,
+		zap.String(METHOD, method),
+		zap.Duration(TIME, time),
+		zap.Any(METADATA, metaData),
+		zap.Any(ERROR, err),
+	)
+}
+
+func GrpcMiddlewareAccessLoggerErr(method string, time time.Duration, metaData map[string][]string, err error) {
+	logger.Error(
+		GRPC,
+		zap.String(METHOD, method),
+		zap.Duration(TIME, time),
+		zap.Any(METADATA, metaData),
+		zap.Any(ERROR, err),
+	)
+}
+
+func GrpcClientInterceptorLogger(method string, req, reply interface{}, time time.Duration, metaData map[string][]string, err error) {
+	logger.Info(
+		GRPC,
+		zap.String(METHOD, method),
+		zap.Any(REQUEST, req),
+		zap.Any(REPLY, reply),
+		zap.Duration(TIME, time),
+		zap.Any(METADATA, metaData),
+		zap.Any(ERROR, err),
+	)
+}
+
+func GrpcClientInterceptorLoggerErr(method string, req, reply interface{}, time time.Duration, metaData map[string][]string, err error) {
+	logger.Error(
+		GRPC,
+		zap.String(METHOD, method),
+		zap.Any(REQUEST, req),
+		zap.Any(REPLY, reply),
+		zap.Duration(TIME, time),
+		zap.Any(METADATA, metaData),
+		zap.Any(ERROR, err),
+	)
 }
