@@ -78,11 +78,8 @@ func (config *Config) SetConfiguration(appName string) {
 	core := zapcore.NewCore(encoder, logWriter, zap.NewAtomicLevelAt(logLevel))
 
 	lg := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
-	lg = lg.Named(appName)
-
 	logger = lg.Sugar()
 	logger = logger.Named(appName)
-	logger.Info("(SET LOG LEVEL)", zap.String("LEVEL", config.Level))
 	logger.Sync()
 }
 
