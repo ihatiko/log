@@ -8,6 +8,7 @@ import (
 )
 
 var logger *zap.SugaredLogger
+var lg *zap.Logger
 
 type Config struct {
 	Encoding string
@@ -77,7 +78,7 @@ func (config *Config) SetConfiguration(appName string) {
 
 	core := zapcore.NewCore(encoder, logWriter, zap.NewAtomicLevelAt(logLevel))
 
-	lg := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
+	lg = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
 	logger = lg.Sugar()
 	logger = logger.Named(appName)
 	logger.Sync()
@@ -179,7 +180,7 @@ func HttpMiddlewareAccessLogger(method, uri string, status int, size int64, time
 }
 
 func GrpcMiddlewareAccessLogger(method string, time time.Duration, metaData map[string][]string, err error) {
-	logger.Info(
+	lg.Info(
 		GRPC,
 		zap.String(METHOD, method),
 		zap.Duration(TIME, time),
@@ -189,7 +190,7 @@ func GrpcMiddlewareAccessLogger(method string, time time.Duration, metaData map[
 }
 
 func GrpcMiddlewareAccessLoggerErr(method string, time time.Duration, metaData map[string][]string, err error) {
-	logger.Error(
+	lg.Error(
 		GRPC,
 		zap.String(METHOD, method),
 		zap.Duration(TIME, time),
@@ -199,7 +200,7 @@ func GrpcMiddlewareAccessLoggerErr(method string, time time.Duration, metaData m
 }
 
 func GrpcClientInterceptorLogger(method string, req, reply interface{}, time time.Duration, metaData map[string][]string, err error) {
-	logger.Info(
+	lg.Info(
 		GRPC,
 		zap.String(METHOD, method),
 		zap.Any(REQUEST, req),
@@ -211,7 +212,7 @@ func GrpcClientInterceptorLogger(method string, req, reply interface{}, time tim
 }
 
 func GrpcClientInterceptorLoggerErr(method string, req, reply interface{}, time time.Duration, metaData map[string][]string, err error) {
-	logger.Error(
+	lg.Error(
 		GRPC,
 		zap.String(METHOD, method),
 		zap.Any(REQUEST, req),
