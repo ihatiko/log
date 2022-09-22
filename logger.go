@@ -170,24 +170,22 @@ func FatalW(msg string, keysAndValues ...interface{}) {
 	logger.Fatal(msg, keysAndValues)
 }
 
-func HttpMiddlewareAccessLogger(method, uri string, status int, size int64, time time.Duration) {
+func HttpMiddlewareAccessLogger(method, uri string, status int, time time.Duration) {
 	lg.Info(
 		HTTP,
 		zap.String(METHOD, method),
 		zap.String(URI, uri),
 		zap.Int(STATUS, status),
-		zap.Int64(SIZE, size),
 		zap.Duration(TIME, time),
 	)
 }
 
-func HttpMiddlewareAccessLoggerDebug(method, uri string, status int, size int64, time time.Duration, bodyIn, bodyOut string) {
+func HttpMiddlewareAccessLoggerDebug(method, uri string, status int, time time.Duration, bodyIn, bodyOut string) {
 	lg.Info(
 		HTTP,
 		zap.String(METHOD, method),
 		zap.String(URI, uri),
 		zap.Int(STATUS, status),
-		zap.Int64(SIZE, size),
 		zap.Duration(TIME, time),
 		zap.String(IN, bodyIn),
 		zap.String(OUT, bodyOut),
