@@ -81,7 +81,9 @@ func (config *Config) SetConfiguration(appName string) {
 	lg = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
 	logger = lg.Sugar()
 	logger = logger.Named(appName)
+	lg = lg.Named(appName)
 	logger.Sync()
+	lg.Sync()
 }
 
 func Debug(args ...interface{}) {
@@ -176,6 +178,19 @@ func HttpMiddlewareAccessLogger(method, uri string, status int, size int64, time
 		zap.Int(STATUS, status),
 		zap.Int64(SIZE, size),
 		zap.Duration(TIME, time),
+	)
+}
+
+func HttpMiddlewareAccessLoggerDebug(method, uri string, status int, size int64, time time.Duration, bodyIn, bodyOut string) {
+	lg.Info(
+		HTTP,
+		zap.String(METHOD, method),
+		zap.String(URI, uri),
+		zap.Int(STATUS, status),
+		zap.Int64(SIZE, size),
+		zap.Duration(TIME, time),
+		zap.String(IN, bodyIn),
+		zap.String(OUT, bodyOut),
 	)
 }
 

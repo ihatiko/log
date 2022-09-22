@@ -1,15 +1,17 @@
 package log
 
 const (
-	GRPC     = "GRPC"
-	SIZE     = "SIZE"
-	URI      = "URI"
-	STATUS   = "STATUS"
-	HTTP     = "HTTP"
-	ERROR    = "ERROR"
-	METHOD   = "METHOD"
-	METADATA = "METADATA"
-	REQUEST  = "REQUEST"
-	REPLY    = "REPLY"
-	TIME     = "TIME"
+	GRPC     = "grpc"
+	SIZE     = "size"
+	URI      = "uri"
+	STATUS   = "status"
+	HTTP     = "http"
+	ERROR    = "error"
+	METHOD   = "method"
+	METADATA = "metadata"
+	REQUEST  = "request"
+	REPLY    = "reply"
+	TIME     = "time"
+	IN       = "in"
+	OUT      = "out"
 )
