@@ -169,7 +169,7 @@ func FatalW(msg string, keysAndValues ...interface{}) {
 }
 
 func HttpMiddlewareAccessLogger(method, uri string, status int, size int64, time time.Duration) {
-	logger.Info(
+	lg.Info(
 		HTTP,
 		zap.String(METHOD, method),
 		zap.String(URI, uri),
