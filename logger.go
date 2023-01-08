@@ -14,6 +14,7 @@ type Config struct {
 	Encoding string
 	Level    string
 	DevMode  bool
+	Caller   bool
 }
 type appLogger struct {
 	level       string
@@ -78,7 +79,11 @@ func (config *Config) SetConfiguration(appName string) {
 
 	core := zapcore.NewCore(encoder, logWriter, zap.NewAtomicLevelAt(logLevel))
 
-	lg = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
+	lg = zap.New(core)
+	if config.Caller {
+		lg.WithOptions(zap.AddCaller(), zap.AddCallerSkip(1))
+	}
+
 	logger = lg.Sugar()
 	logger = logger.Named(appName)
 	lg = lg.Named(appName)
