@@ -81,7 +81,7 @@ func (config *Config) SetConfiguration(appName string) {
 
 	lg = zap.New(core)
 	if config.Caller {
-		lg.WithOptions(zap.AddCaller(), zap.AddCallerSkip(1))
+		lg = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
 	}
 
 	logger = lg.Sugar()
