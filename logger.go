@@ -92,59 +92,59 @@ func (config *Config) SetConfiguration(appName string) {
 }
 
 func Debug(args ...interface{}) {
-	logger.Debug(args)
+	logger.Debug(args...)
 }
 
 func Info(args ...interface{}) {
-	logger.Info(args)
+	logger.Info(args...)
 }
 
 func Warn(args ...interface{}) {
-	logger.Warn(args)
+	logger.Warn(args...)
 }
 
 func Error(args ...interface{}) {
-	logger.Error(args)
+	logger.Error(args...)
 }
 
 func DPanic(args ...interface{}) {
-	logger.DPanic(args)
+	logger.DPanic(args...)
 }
 
 func Panic(args ...interface{}) {
-	logger.Panic(args)
+	logger.Panic(args...)
 }
 
 func Fatal(args ...interface{}) {
-	logger.Fatal(args)
+	logger.Fatal(args...)
 }
 
 func DebugF(template string, args ...interface{}) {
-	logger.Debugf(template, args)
+	logger.Debugf(template, args...)
 }
 
 func InfoF(template string, args ...interface{}) {
-	logger.Infof(template, args)
+	logger.Infof(template, args...)
 }
 
 func WarnF(template string, args ...interface{}) {
-	logger.Warnf(template, args)
+	logger.Warnf(template, args...)
 }
 
 func ErrorF(template string, args ...interface{}) {
-	logger.Errorf(template, args)
+	logger.Errorf(template, args...)
 }
 
 func DPanicF(template string, args ...interface{}) {
-	logger.DPanicf(template, args)
+	logger.DPanicf(template, args...)
 }
 
 func PanicF(template string, args ...interface{}) {
-	logger.Panicf(template, args)
+	logger.Panicf(template, args...)
 }
 
 func FatalF(template string, args ...interface{}) {
-	logger.Fatalf(template, args)
+	logger.Fatalf(template, args...)
 }
 
 func DebugW(msg string, keysAndValues ...interface{}) {
