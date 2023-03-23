@@ -45,7 +45,6 @@ func (l *appLogger) getLoggerLevel() zapcore.Level {
 func (config *Config) SetConfiguration(appName string) {
 	appLogger := &appLogger{level: config.Level, devMode: config.DevMode, encoding: config.Encoding}
 	logLevel := appLogger.getLoggerLevel()
-
 	logWriter := zapcore.AddSync(os.Stdout)
 
 	var encoderCfg zapcore.EncoderConfig
@@ -91,87 +90,87 @@ func (config *Config) SetConfiguration(appName string) {
 	lg.Sync()
 }
 
-func Debug(args ...interface{}) {
+func Debug(args ...any) {
 	logger.Debug(args...)
 }
 
-func Info(args ...interface{}) {
+func Info(args ...any) {
 	logger.Info(args...)
 }
 
-func Warn(args ...interface{}) {
+func Warn(args ...any) {
 	logger.Warn(args...)
 }
 
-func Error(args ...interface{}) {
+func Error(args ...any) {
 	logger.Error(args...)
 }
 
-func DPanic(args ...interface{}) {
+func DPanic(args ...any) {
 	logger.DPanic(args...)
 }
 
-func Panic(args ...interface{}) {
+func Panic(args ...any) {
 	logger.Panic(args...)
 }
 
-func Fatal(args ...interface{}) {
+func Fatal(args ...any) {
 	logger.Fatal(args...)
 }
 
-func DebugF(template string, args ...interface{}) {
+func DebugF(template string, args ...any) {
 	logger.Debugf(template, args...)
 }
 
-func InfoF(template string, args ...interface{}) {
+func InfoF(template string, args ...any) {
 	logger.Infof(template, args...)
 }
 
-func WarnF(template string, args ...interface{}) {
+func WarnF(template string, args ...any) {
 	logger.Warnf(template, args...)
 }
 
-func ErrorF(template string, args ...interface{}) {
+func ErrorF(template string, args ...any) {
 	logger.Errorf(template, args...)
 }
 
-func DPanicF(template string, args ...interface{}) {
+func DPanicF(template string, args ...any) {
 	logger.DPanicf(template, args...)
 }
 
-func PanicF(template string, args ...interface{}) {
+func PanicF(template string, args ...any) {
 	logger.Panicf(template, args...)
 }
 
-func FatalF(template string, args ...interface{}) {
+func FatalF(template string, args ...any) {
 	logger.Fatalf(template, args...)
 }
 
-func DebugW(msg string, keysAndValues ...interface{}) {
+func DebugW(msg string, keysAndValues ...any) {
 	logger.Debugw(msg, keysAndValues)
 }
 
-func InfoW(msg string, keysAndValues ...interface{}) {
+func InfoW(msg string, keysAndValues ...any) {
 	logger.Info(msg, keysAndValues)
 }
 
-func WarnW(msg string, keysAndValues ...interface{}) {
+func WarnW(msg string, keysAndValues ...any) {
 	logger.Warnw(msg, keysAndValues)
 }
 
-func ErrorW(msg string, keysAndValues ...interface{}) {
+func ErrorW(msg string, keysAndValues ...any) {
 	logger.Errorw(msg, keysAndValues)
 }
 
-func DPanicW(msg string, keysAndValues ...interface{}) {
+func DPanicW(msg string, keysAndValues ...any) {
 	logger.DPanicw(msg, keysAndValues)
 }
 
-func PanicW(msg string, keysAndValues ...interface{}) {
+func PanicW(msg string, keysAndValues ...any) {
 	logger.Info(msg, keysAndValues)
 }
 
-func FatalW(msg string, keysAndValues ...interface{}) {
+func FatalW(msg string, keysAndValues ...any) {
 	logger.Fatal(msg, keysAndValues)
 }
 
@@ -217,7 +216,7 @@ func GrpcMiddlewareAccessLoggerErr(method string, time time.Duration, metaData m
 	)
 }
 
-func GrpcClientInterceptorLogger(method string, req, reply interface{}, time time.Duration, metaData map[string][]string, err error) {
+func GrpcClientInterceptorLogger(method string, req, reply any, time time.Duration, metaData map[string][]string, err error) {
 	lg.Info(
 		GRPC,
 		zap.String(METHOD, method),
@@ -229,7 +228,7 @@ func GrpcClientInterceptorLogger(method string, req, reply interface{}, time tim
 	)
 }
 
-func GrpcClientInterceptorLoggerErr(method string, req, reply interface{}, time time.Duration, metaData map[string][]string, err error) {
+func GrpcClientInterceptorLoggerErr(method string, req, reply any, time time.Duration, metaData map[string][]string, err error) {
 	lg.Error(
 		GRPC,
 		zap.String(METHOD, method),
