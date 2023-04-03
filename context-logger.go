@@ -35,7 +35,7 @@ func (c *Log) WithContext(ctx context.Context) *Log {
 	spanContext := span.Context()
 	jaegerSpanContext, ok := spanContext.(jaeger.SpanContext)
 	if ok {
-		c.Fields = append(c.Fields, zap.String("spanId", jaegerSpanContext.SpanID().String()))
+		c.Fields = append(c.Fields, zap.String("spanId", jaegerSpanContext.TraceID().String()))
 	}
 	return c
 }
