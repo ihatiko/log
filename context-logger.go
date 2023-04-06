@@ -2,7 +2,7 @@ package log
 
 import (
 	"context"
-	"fmt"
+
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
 	"go.uber.org/zap"
@@ -35,7 +35,7 @@ func (c *Log) WithContext(ctx context.Context) *Log {
 	spanContext := span.Context()
 	jaegerSpanContext, ok := spanContext.(jaeger.SpanContext)
 	if ok {
-		c.Fields = append(c.Fields, zap.String("spanId", jaegerSpanContext.TraceID().String()))
+		c.Fields = append(c.Fields, zap.String("traceid", jaegerSpanContext.TraceID().String()))
 	}
 	return c
 }
@@ -45,26 +45,46 @@ func WithContext(ctx context.Context) *Log {
 	return lg.WithContext(ctx)
 }
 
-func (c *Log) Info(template string, args ...any) {
-	lg.Info(fmt.Sprintf(template, args...), c.Fields...)
+func (c *Log) InfoF(template string, args ...any) {
+	lg.With(c.Fields...).Sugar().Infof(template, args...)
+}
+func (c *Log) DebugF(template string, args ...any) {
+	lg.With(c.Fields...).Sugar().Debugf(template, args...)
+}
+func (c *Log) PanicF(template string, args ...any) {
+	lg.With(c.Fields...).Sugar().Panicf(template, args...)
+}
+func (c *Log) ErrorF(template string, args ...any) {
+	lg.With(c.Fields...).Sugar().Errorf(template, args...)
+}
+func (c *Log) DPanicF(template string, args ...any) {
+	lg.With(c.Fields...).Sugar().DPanicf(template, args...)
+}
+func (c *Log) WarnF(template string, args ...any) {
+	lg.With(c.Fields...).Sugar().Warnf(template, args...)
+}
+func (c *Log) FatalF(template string, args ...any) {
+	lg.With(c.Fields...).Sugar().Fatalf(template, args...)
 }
 
-func (c *Log) Warn(template string, args ...any) {
-	lg.Warn(fmt.Sprintf(template, args...), c.Fields...)
+func (c *Log) Info(args ...any) {
+	lg.With(c.Fields...).Sugar().Info(args...)
 }
-
-func (c *Log) Error(template string, args ...any) {
-	lg.Error(fmt.Sprintf(template, args...), c.Fields...)
+func (c *Log) Debug(args ...any) {
+	lg.With(c.Fields...).Sugar().Debug(args...)
 }
-
-func (c *Log) DPanic(template string, args ...any) {
-	lg.DPanic(fmt.Sprintf(template, args...), c.Fields...)
+func (c *Log) Panic(args ...any) {
+	lg.With(c.Fields...).Sugar().Panic(args...)
 }
-
-func (c *Log) Panic(template string, args ...any) {
-	lg.Panic(fmt.Sprintf(template, args...), c.Fields...)
+func (c *Log) Error(args ...any) {
+	lg.With(c.Fields...).Sugar().Error(args...)
 }
-
-func (c *Log) Fatal(template string, args ...any) {
-	lg.Fatal(fmt.Sprintf(template, args...), c.Fields...)
+func (c *Log) DPanic(args ...any) {
+	lg.With(c.Fields...).Sugar().DPanic(args...)
+}
+func (c *Log) Warn(args ...any) {
+	lg.With(c.Fields...).Sugar().Warn(args...)
+}
+func (c *Log) Fatal(args ...any) {
+	lg.With(c.Fields...).Sugar().Fatal(args...)
 }

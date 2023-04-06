@@ -1,10 +1,10 @@
 package log
 
 import (
+	"os"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
-	"time"
 )
 
 var logger *zap.SugaredLogger
@@ -172,70 +172,4 @@ func PanicW(msg string, keysAndValues ...any) {
 
 func FatalW(msg string, keysAndValues ...any) {
 	logger.Fatal(msg, keysAndValues)
-}
-
-func HttpMiddlewareAccessLogger(method, uri string, status int, time time.Duration) {
-	lg.Info(
-		HTTP,
-		zap.String(METHOD, method),
-		zap.String(URI, uri),
-		zap.Int(STATUS, status),
-		zap.Duration(TIME, time),
-	)
-}
-
-func HttpMiddlewareAccessLoggerDebug(method, uri string, status int, time time.Duration, bodyIn, bodyOut string) {
-	lg.Info(
-		HTTP,
-		zap.String(METHOD, method),
-		zap.String(URI, uri),
-		zap.Int(STATUS, status),
-		zap.Duration(TIME, time),
-		zap.String(IN, bodyIn),
-		zap.String(OUT, bodyOut),
-	)
-}
-
-func GrpcMiddlewareAccessLogger(method string, time time.Duration, metaData map[string][]string, err error) {
-	lg.Info(
-		GRPC,
-		zap.String(METHOD, method),
-		zap.Duration(TIME, time),
-		zap.Any(METADATA, metaData),
-		zap.Any(ERROR, err),
-	)
-}
-
-func GrpcMiddlewareAccessLoggerErr(method string, time time.Duration, metaData map[string][]string, err error) {
-	lg.Error(
-		GRPC,
-		zap.String(METHOD, method),
-		zap.Duration(TIME, time),
-		zap.Any(METADATA, metaData),
-		zap.Any(ERROR, err),
-	)
-}
-
-func GrpcClientInterceptorLogger(method string, req, reply any, time time.Duration, metaData map[string][]string, err error) {
-	lg.Info(
-		GRPC,
-		zap.String(METHOD, method),
-		zap.Any(REQUEST, req),
-		zap.Any(REPLY, reply),
-		zap.Duration(TIME, time),
-		zap.Any(METADATA, metaData),
-		zap.Any(ERROR, err),
-	)
-}
-
-func GrpcClientInterceptorLoggerErr(method string, req, reply any, time time.Duration, metaData map[string][]string, err error) {
-	lg.Error(
-		GRPC,
-		zap.String(METHOD, method),
-		zap.Any(REQUEST, req),
-		zap.Any(REPLY, reply),
-		zap.Duration(TIME, time),
-		zap.Any(METADATA, metaData),
-		zap.Any(ERROR, err),
-	)
 }

@@ -2,9 +2,11 @@ package log
 
 import (
 	"context"
+	"errors"
+	"testing"
+
 	"github.com/ihatiko/tracer"
 	"github.com/opentracing/opentracing-go"
-	"testing"
 )
 
 func TestConfig_SetConfiguration(t *testing.T) {
@@ -34,7 +36,11 @@ func TestConfig_Jaeger(t *testing.T) {
 	span, ctx := opentracing.StartSpanFromContext(context.Background(), "TESTSPAN")
 	span.Finish()
 	WithLog().
-		WithLog().
 		WithContext(ctx).
-		Info("ERROR")
+		InfoF("TESTSPAN123 %s", "hello world")
+
+	e := errors.New("ERROR12323213213")
+
+	WithContext(ctx).
+		Error(e)
 }
