@@ -42,6 +42,16 @@ func (l *appLogger) getLoggerLevel() zapcore.Level {
 
 	return level
 }
+
+func WithDefault(appName string) {
+	(&Config{
+		Encoding: "json",
+		Level:    "info",
+		DevMode:  false,
+		Caller:   false,
+	}).SetConfiguration(appName)
+}
+
 func (config *Config) SetConfiguration(appName string) {
 	appLogger := &appLogger{level: config.Level, devMode: config.DevMode, encoding: config.Encoding}
 	logLevel := appLogger.getLoggerLevel()

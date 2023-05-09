@@ -10,24 +10,12 @@ import (
 )
 
 func TestConfig_SetConfiguration(t *testing.T) {
-	config := &Config{
-		Encoding: "json",
-		Level:    "info",
-		DevMode:  false,
-		Caller:   true,
-	}
-	config.SetConfiguration("TEST")
+	WithDefault("TEST")
 	Info("TEST")
 }
 
 func TestConfig_Jaeger(t *testing.T) {
-	config := &Config{
-		Encoding: "json",
-		Level:    "info",
-		DevMode:  false,
-		Caller:   true,
-	}
-	config.SetConfiguration("TEST")
+	WithDefault("TEST")
 	cfgJaeger := tracer.Config{LogSpans: false, Host: "localhost:9000"}
 	_, err := cfgJaeger.NewTracer("TEST")
 	if err != nil {
