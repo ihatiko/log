@@ -34,6 +34,14 @@ var loggerLevelMap = map[string]zapcore.Level{
 	"fatal":  zapcore.FatalLevel,
 }
 
+func GetSugar() *zap.SugaredLogger {
+	return logger
+}
+
+func GetGlobalLogger() *zap.Logger {
+	return lg
+}
+
 func (l *appLogger) getLoggerLevel() zapcore.Level {
 	level, exist := loggerLevelMap[l.level]
 	if !exist {
